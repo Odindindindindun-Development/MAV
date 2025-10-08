@@ -62,6 +62,10 @@ img {
   color: white;
 }
 
+.submenu-parent-active {
+  background-color: green;
+}
+
 .submenu-item-active {
   background: green;
   color: white;

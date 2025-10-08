@@ -1,8 +1,17 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const Sidebar: React.FC = () => {
-   const [open, setOpen] = useState(false);
+    const location = useLocation();
+  const [open, setOpen] = useState(false);
+
+  // Determine if any /users/... route is active
+  const isUsersActive = location.pathname.startsWith("/user");
+
+  // Automatically open Users dropdown if any submenu is active
+  useEffect(() => {
+    if (isUsersActive) setOpen(true);
+  }, [isUsersActive]);
 
   return (
     <aside className="sidebar">
@@ -12,7 +21,8 @@ const Sidebar: React.FC = () => {
         <nav className="menu">
         {/* USERS DROPDOWN */}
         <div>
-          <div className="menu-item" onClick={() => setOpen(!open)}>
+          <div  className={`menu-item ${isUsersActive ? "submenu-parent-active" : ""}`}
+          onClick={() => setOpen(!open)}>
             <span>Users</span>
             <span>{open ? "▲" : "▼"}</span>
           </div>
@@ -42,7 +52,7 @@ const Sidebar: React.FC = () => {
 
         {/* OTHER LINKS */}
         <NavLink
-          to="/inventory"
+          to="#"
           className={({ isActive }) =>
             isActive ? "menu-item active" : "menu-item"
           }
@@ -51,7 +61,7 @@ const Sidebar: React.FC = () => {
         </NavLink>
 
         <NavLink
-          to="/billing"
+          to="#"
           className={({ isActive }) =>
             isActive ? "menu-item active" : "menu-item"
           }
@@ -60,7 +70,7 @@ const Sidebar: React.FC = () => {
         </NavLink>
 
         <NavLink
-          to="/settings"
+          to="#"
           className={({ isActive }) =>
             isActive ? "menu-item active" : "menu-item"
           }

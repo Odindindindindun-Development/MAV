@@ -1,6 +1,7 @@
 import React from "react";
 
 const UsersInfoTable: React.FC = () => {
+
   const data = [
     { name: "Olivia Rhye", email: "olivia@untitledui.com", contact: "09465132456", status: "Active" },
     { name: "Phoenix Baker", email: "phoenix@untitledui.com", contact: "09465132456", status: "Active" },
