@@ -41,7 +41,6 @@ const UsersInfoTable: React.FC = () => {
       <thead>
         <tr>
           <th>Name</th>
-          <th>Status</th>
           <th>Email address</th>
           <th>Contact Number</th>
           <th>Address</th>

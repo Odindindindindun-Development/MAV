@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import UsersInfo from "./pages/UsersInfo";
 import UserTransaction from "./pages/UserTransaction";
+import AddUser from "./pages/AddUser";
 import EditUser from "./pages/EditUser";
 import "./style/style.css";
 
@@ -11,6 +12,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/users/customer-info" element={<UsersInfo />} />
         <Route path="/users/customer-transactions" element={<UserTransaction />} />
+        <Route path="/users/add" element={<AddUser />} />
         <Route path="/users/edit" element={<EditUser />} />
       </Routes>
     </Router>

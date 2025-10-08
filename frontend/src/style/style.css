@@ -58,16 +58,16 @@ img {
 }
 
 .menu-item-active {
-  background: green;
+  background: #7F56D9;
   color: white;
 }
 
 .submenu-parent-active {
-  background-color: green;
+  background-color: #7F56D9;
 }
 
 .submenu-item-active {
-  background: green;
+  background: #7f56d986;
   color: white;
 }
 
@@ -76,20 +76,27 @@ img {
   flex-direction: column;
 }
 
+.sidebar .menu-item, .sidebar a {
+  padding: 10px;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.sidebar .menu-item:hover{
+  background-color: #7F56D9;
+}
+
+
+.sidebar .submenu {
+  margin-left: 15px;
+}
+
+/* main content */
+
 .main-content {
   flex: 1;
   background: #f9f9f9;
   padding: 20px;
-}
-
-.sidebar .menu-item, .sidebar a {
-  padding: 10px;
-  cursor: pointer;
-
-}
-
-.sidebar .submenu {
-  margin-left: 15px;
 }
 
 .header {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 
-const EditUser: React.FC = () => {
+const AddUser: React.FC = () => {
   const [formData, setFormData] = useState({
     fullname: "",
     contact_number: "",
@@ -10,7 +10,7 @@ const EditUser: React.FC = () => {
     date_registered: "",
   });
 
-  const [status, setStatus] = useState(""); // for success/error messages
+  const [status, setStatus] = useState(""); // success/error messages
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -24,7 +24,7 @@ const EditUser: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://backend.test/edit/customers", {
+      const res = await fetch("http://backend.test/add/customers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,14 +32,21 @@ const EditUser: React.FC = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error("Failed to submit");
+      if (!res.ok) throw new Error("Failed to add user");
 
-      const data = await response.json();
-      setStatus("User saved successfully!");
-      console.log("Response from backend:", data);
+      const data = await res.json();
+      console.log("Response:", data);
+      setStatus("User added successfully!");
+      setFormData({
+        fullname: "",
+        contact_number: "",
+        email: "",
+        address: "",
+        date_registered: "",
+      });
     } catch (err) {
       console.error(err);
-      setStatus("Error saving user.");
+      setStatus("Error adding user.");
     }
   };
 
@@ -48,7 +55,7 @@ const EditUser: React.FC = () => {
       <Sidebar />
       <main className="main-content">
 
-        <h1>Edit User</h1>
+        <h1>Add New User</h1>
 
         <form onSubmit={handleSubmit} style={{ maxWidth: 500 }}>
           <div>
@@ -105,7 +112,7 @@ const EditUser: React.FC = () => {
             />
           </div>
 
-          <button type="submit">Save User</button>
+          <button type="submit">Add User</button>
         </form>
 
         {status && <p>{status}</p>}
@@ -114,4 +121,4 @@ const EditUser: React.FC = () => {
   );
 };
 
-export default EditUser;
+export default AddUser;

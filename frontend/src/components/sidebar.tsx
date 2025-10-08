@@ -67,7 +67,7 @@ const Sidebar: React.FC = () => {
             isActive ? "menu-item active" : "menu-item"
           }
         >
-          Billing
+          Financial Records
         </NavLink>
 
         <NavLink
@@ -76,7 +76,7 @@ const Sidebar: React.FC = () => {
             isActive ? "menu-item active" : "menu-item"
           }
         >
-          Settings
+          Billings
         </NavLink>
       </nav>
       </div>
