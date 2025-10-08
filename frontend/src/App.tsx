@@ -1,12 +1,16 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import UsersInfo from "./pages/UsersInfo";
 import "./style/style.css";
 
 const App: React.FC = () => {
   return (
-    <>
-      <UsersInfo />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<UsersInfo />} />
+      </Routes>
+    </Router>
+
   );
 };
 
