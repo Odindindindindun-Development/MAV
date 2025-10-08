@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 
 const Sidebar: React.FC = () => {
     const location = useLocation();
@@ -24,6 +25,7 @@ const Sidebar: React.FC = () => {
           <div  className={`menu-item ${isUsersActive ? "submenu-parent-active" : ""}`}
           onClick={() => setOpen(!open)}>
             <span>Users</span>
+            <span>{open ? <FaChevronUp /> : <FaChevronDown />}</span>
           </div>
 
           {open && (

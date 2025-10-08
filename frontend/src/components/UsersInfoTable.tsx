@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UsersInfoTable: React.FC = () => {
 
@@ -27,8 +28,9 @@ const UsersInfoTable: React.FC = () => {
             <td>{user.email}</td>
             <td>{user.contact}</td>
             <td>
-              <button>✏️</button>
-              <button>🗑️</button>
+              <Link to="/users/edit">
+                <button>✏️</button>
+              </Link>
             </td>
           </tr>
         ))}
