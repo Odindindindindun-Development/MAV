@@ -24,13 +24,12 @@ const Sidebar: React.FC = () => {
           <div  className={`menu-item ${isUsersActive ? "submenu-parent-active" : ""}`}
           onClick={() => setOpen(!open)}>
             <span>Users</span>
-            <span>{open ? "▲" : "▼"}</span>
           </div>
 
           {open && (
             <div className="submenu">
               <NavLink
-                to="/"
+                to="/users/customer-info"
                 className={({ isActive }) =>
                   isActive ? "submenu-item-active" : "submenu-item"
                 }
@@ -39,7 +38,7 @@ const Sidebar: React.FC = () => {
               </NavLink>
 
               <NavLink
-                to="/"
+                to="/users/customer-transactions"
                 className={({ isActive }) =>
                   isActive ? "submenu-item-active" : "submenu-item"
                 }
