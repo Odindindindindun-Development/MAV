@@ -2,45 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\Customer;
 
 class CustomerController extends Controller
 {
+    // 🧭 Display all customers
     public function index()
     {
-        return Customer::all();
+        $customers = Customer::all();
+        return response()->json($customers);
     }
 
+    // 🧩 Add a new customer
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'fullname' => 'required|string',
-            'contact_number' => 'required|string',
+            'fullname' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:255',
             'email' => 'required|email|unique:customers',
             'address' => 'required|string',
             'date_registered' => 'required|date',
         ]);
 
         $customer = Customer::create($validated);
-        return response()->json($customer, 201);
+
+        return response()->json([
+            'message' => 'Customer added successfully!',
+            'data' => $customer
+        ], 201);
     }
 
-    public function show($id)
-    {
-        return Customer::findOrFail($id);
-    }
-
+    // 🛠 Edit an existing customer (optional for later)
     public function update(Request $request, $id)
     {
         $customer = Customer::findOrFail($id);
         $customer->update($request->all());
-        return $customer;
+        return response()->json(['message' => 'Customer updated successfully!', 'data' => $customer]);
     }
 
+    // 🗑 Delete a customer (optional)
     public function destroy($id)
     {
-        Customer::destroy($id);
-        return response()->json(['message' => 'Customer deleted']);
+        $customer = Customer::findOrFail($id);
+        $customer->delete();
+        return response()->json(['message' => 'Customer deleted successfully!']);
     }
 }

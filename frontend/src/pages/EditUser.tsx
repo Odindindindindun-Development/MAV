@@ -45,7 +45,7 @@ const EditUser: React.FC = () => {
         body: JSON.stringify(formData),
       });
       if (!res.ok) throw new Error("Failed to update user");
-      const data = await res.json();
+      await res.json();
       setStatus("User updated successfully!");
     } catch (err) {
       console.error(err);
