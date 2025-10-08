@@ -1,37 +1,74 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
-  const [isUsersOpen, setIsUsersOpen] = useState(false);
+   const [open, setOpen] = useState(false);
 
   return (
     <aside className="sidebar">
+        <div>
       <div className="logo">Logo</div>
 
-      <nav className="menu">
-        <ul>
-          {/* USERS DROPDOWN */}
-          <li
-            className="menu-item"
-            onClick={() => setIsUsersOpen(!isUsersOpen)}
-            style={{ cursor: "pointer" }}
-          >
-            <span>👥 Users</span>
-          </li>
+        <nav className="menu">
+        {/* USERS DROPDOWN */}
+        <div>
+          <div className="menu-item" onClick={() => setOpen(!open)}>
+            <span>Users</span>
+            <span>{open ? "▲" : "▼"}</span>
+          </div>
 
-          {isUsersOpen && (
-            <ul className="submenu">
-              <li>Customer Info</li>
-              <li>Transactions</li>
-            </ul>
+          {open && (
+            <div className="submenu">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? "submenu-item-active" : "submenu-item"
+                }
+              >
+                Customer Info
+              </NavLink>
+
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? "submenu-item-active" : "submenu-item"
+                }
+              >
+                Transactions
+              </NavLink>
+            </div>
           )}
+        </div>
 
-          {/* OTHER MENU ITEMS */}
-          <li>Inventory System</li>
-          <li>Financial Records</li>
-          <li>Billings</li>
-          <li>What a Sigma</li>
-        </ul>
+        {/* OTHER LINKS */}
+        <NavLink
+          to="/inventory"
+          className={({ isActive }) =>
+            isActive ? "menu-item active" : "menu-item"
+          }
+        >
+          Inventory
+        </NavLink>
+
+        <NavLink
+          to="/billing"
+          className={({ isActive }) =>
+            isActive ? "menu-item active" : "menu-item"
+          }
+        >
+          Billing
+        </NavLink>
+
+        <NavLink
+          to="/settings"
+          className={({ isActive }) =>
+            isActive ? "menu-item active" : "menu-item"
+          }
+        >
+          Settings
+        </NavLink>
       </nav>
+      </div>
 
       <div className="sidebar-footer">
         <div className="settings">⚙️</div>
