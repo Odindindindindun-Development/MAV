@@ -17,7 +17,7 @@ return new class extends Migration
         $table->string('contact_number');
         $table->string('email')->unique();
         $table->string('address');
-        $table->date('date_registered');a
+        $table->date('date_registered');
     });
     
     }
