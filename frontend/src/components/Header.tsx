@@ -9,9 +9,9 @@ const Header: React.FC = () => {
         <p>Track, manage, and forecast your customers and orders.</p>
       </div>
       <Link to={`/users/add`}>
-                <button className="add-btn">Add</button>
-              </Link>
-      
+        <button className="add-btn">Add</button>
+      </Link>
+
     </header>
   );
 };

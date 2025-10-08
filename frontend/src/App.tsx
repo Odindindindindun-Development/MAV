@@ -13,7 +13,7 @@ const App: React.FC = () => {
         <Route path="/users/customer-info" element={<UsersInfo />} />
         <Route path="/users/customer-transactions" element={<UserTransaction />} />
         <Route path="/users/add" element={<AddUser />} />
-        <Route path="/users/edit" element={<EditUser />} />
+        <Route path="/users/edit/:id" element={<EditUser />} />
       </Routes>
     </Router>
 
