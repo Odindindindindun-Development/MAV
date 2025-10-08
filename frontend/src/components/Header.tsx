@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaPlus } from "react-icons/fa";
 
 const Header: React.FC = () => {
   return (
@@ -9,9 +10,9 @@ const Header: React.FC = () => {
         <p>Track, manage, and forecast your customers and orders.</p>
       </div>
       <Link to={`/users/add`}>
-                <button className="add-btn">Add</button>
-              </Link>
-      
+        <button className="add-btn"> <FaPlus />Add</button>
+      </Link>
+
     </header>
   );
 };

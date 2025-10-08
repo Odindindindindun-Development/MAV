@@ -10,43 +10,42 @@ const AddUser: React.FC = () => {
     date_registered: "",
   });
 
-  const [status, setStatus] = useState(""); // success/error messages
+  const [status, setStatus] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+<<<<<<< HEAD
       const res = await fetch("http://backend.test/api/add/customers", {
+=======
+      // Get CSRF token from meta tag (Laravel)
+      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+      const res = await fetch("http://backend.test/add/customers", {
+>>>>>>> b69b003795caf52e2f7dd6d5288cfb24b7993215
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-CSRF-TOKEN": csrfToken || "",
         },
+        credentials: "include", // send cookies
         body: JSON.stringify(formData),
       });
 
       if (!res.ok) throw new Error("Failed to add user");
 
       const data = await res.json();
-      console.log("Response:", data);
-      setStatus("User added successfully!");
-      setFormData({
-        fullname: "",
-        contact_number: "",
-        email: "",
-        address: "",
-        date_registered: "",
-      });
+      setStatus("✅ User added successfully!");
+      setFormData({ fullname: "", contact_number: "", email: "", address: "", date_registered: "" });
     } catch (err) {
       console.error(err);
-      setStatus("Error adding user.");
+      setStatus("❌ Error adding user.");
     }
   };
 
@@ -54,68 +53,39 @@ const AddUser: React.FC = () => {
     <div className="dashboard">
       <Sidebar />
       <main className="main-content">
+        <div className="add-user-container">
+          <h2>Add New User</h2>
+          <p>Please fill out all the fields below carefully to add a new user to the system.</p>
 
-        <h1>Add New User</h1>
+          <form className="user-form" onSubmit={handleSubmit}>
+            {["fullname", "contact_number", "email", "date_registered"].map((field) => (
+              <div className="form-group" key={field}>
+                <label>{field.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase())}</label>
+                <input
+                  type={field === "email" ? "email" : field === "date_registered" ? "date" : "text"}
+                  name={field}
+                  value={formData[field as keyof typeof formData]}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            ))}
 
-        <form onSubmit={handleSubmit} style={{ maxWidth: 500 }}>
-          <div>
-            <label>Full Name</label>
-            <input
-              type="text"
-              name="fullname"
-              value={formData.fullname}
-              onChange={handleChange}
-              required
-            />
-          </div>
+            <div className="form-group">
+              <label>Address</label>
+              <textarea
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <div>
-            <label>Contact Number</label>
-            <input
-              type="text"
-              name="contact_number"
-              value={formData.contact_number}
-              onChange={handleChange}
-              required
-            />
-          </div>
+            <button type="submit" className="submit-btn">Add User</button>
+          </form>
 
-          <div>
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div>
-            <label>Address</label>
-            <textarea
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div>
-            <label>Date Registered</label>
-            <input
-              type="date"
-              name="date_registered"
-              value={formData.date_registered}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <button type="submit">Add User</button>
-        </form>
-
-        {status && <p>{status}</p>}
+          {status && <p className="status-msg">{status}</p>}
+        </div>
       </main>
     </div>
   );
