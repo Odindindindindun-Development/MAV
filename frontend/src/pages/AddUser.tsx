@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar";
 
 const AddUser: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ const AddUser: React.FC = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://backend.test/add/customers", {
+      const res = await fetch("http://backend.test/api/add/customers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
