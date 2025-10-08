@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import Home from './pages/Home'
+import UsersInfo from './pages/UsersInfo'
 import "./style/style.css"
 
 function App() {
 
   return (
     <>
-    <Home />
+    <UsersInfo />
     </>
   )
 }
