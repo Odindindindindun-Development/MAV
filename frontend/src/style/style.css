@@ -91,6 +91,35 @@ img {
   margin-left: 15px;
 }
 
+/* header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-btn {
+  display: flex;            /* icon + text in a row */
+  align-items: center;      /* vertically center */
+  gap: 6px;                 /* space between icon and text */
+  background-color: #6941C6; /* dark purple background */
+  margin-right: 20px;
+  color: white;              /* text color */
+  border: none;              /* remove default border */
+  padding: 8px 14px;         /* comfortable padding */
+  border-radius: 6px;        /* rounded corners */
+  cursor: pointer;
+  transition: background 0.2s;
+
+}
+
+
+.add-btn .icon {
+  font-size: 16px;
+  color: white; /* icon color */
+}
+
 /* main content */
 
 .main-content {
@@ -99,12 +128,7 @@ img {
   padding: 20px;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+/* UsersInfo */
 
 .data-table {
   width: 100%;
@@ -118,3 +142,85 @@ img {
   border-bottom: 1px solid #ddd;
   text-align: left;
 }
+
+/* AddUser */
+.add-user-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-form {
+  width: 600px;
+  margin-top: 40px;
+  margin-left: 20px;
+  background: #f8f8f8;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #700b97;
+  box-shadow: 0 0 5px rgba(112, 11, 151, 0.3);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+
+.submit-btn {
+  background-color: #6941C6;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.submit-btn:hover {
+  background-color: #8e05c2;
+  transform: translateY(-1px);
+}
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.status-msg {
+  margin-top: 15px;
+  font-weight: 500;
+  color: green;
+}
+
+
