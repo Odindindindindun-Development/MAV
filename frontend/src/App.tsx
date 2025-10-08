@@ -1,14 +1,13 @@
-import { useState } from 'react'
-import UsersInfo from './pages/UsersInfo'
-import "./style/style.css"
+import React from "react";
+import UsersInfo from "./pages/UsersInfo";
+import "./style/style.css";
 
-function App() {
-
+const App: React.FC = () => {
   return (
     <>
-    <UsersInfo />
+      <UsersInfo />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
