@@ -2,7 +2,6 @@
 
 return [
 
-<<<<<<< HEAD
     /*
     |--------------------------------------------------------------------------
     | Cross-Origin Resource Sharing (CORS) Configuration
@@ -15,21 +14,12 @@ return [
     */
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
-=======
-    'paths' => ['api/*', 'sanctum/csrf-cookie', '*'],
->>>>>>> parent of c612c06 (changes)
 
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-<<<<<<< HEAD
         'http://localhost:5173',
         'http://127.0.0.1:5173',
-=======
-        'http://localhost:5173', // your React app (Vite)
-        'http://127.0.0.1:5173',
-        'http://backend.test',   // your Laravel Herd site
->>>>>>> parent of c612c06 (changes)
     ],
 
     'allowed_origins_patterns' => [],
@@ -41,8 +31,5 @@ return [
     'max_age' => 0,
 
     'supports_credentials' => true,
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of c612c06 (changes)
 ];

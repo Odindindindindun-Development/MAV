@@ -21,7 +21,7 @@ const AddUser: React.FC = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://backend.test/add/customers", {
+      const res = await fetch("http://127.0.0.1:8000/api/customers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // include cookies if needed

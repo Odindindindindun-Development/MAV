@@ -35,6 +35,7 @@ class CustomerController extends Controller
         return Customer::all();
     }
 
+
     public function show($id)
 {
     $customer = \App\Models\Customer::find($id);

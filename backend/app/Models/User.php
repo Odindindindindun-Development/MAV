@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-<<<<<<< HEAD
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -46,12 +45,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-=======
-use Illuminate\Database\Eloquent\Model;
-
-class User extends Model
-{
-
-    //
->>>>>>> parent of c612c06 (changes)
 }
