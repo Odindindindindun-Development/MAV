@@ -18,7 +18,7 @@ const UsersInfoTable: React.FC = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const res = await fetch("http://backend.test/customers");
+        const res = await fetch("http://127.0.0.1:8000/api/customers");
         if (!res.ok) throw new Error("Failed to fetch customers");
         const customers = await res.json();
         setData(customers);

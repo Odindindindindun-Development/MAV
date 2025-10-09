@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar";
 
 const EditUser: React.FC = () => {
   const { id } = useParams<{ id: string }>();

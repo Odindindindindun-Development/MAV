@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar";
 
 const AddUser: React.FC = () => {
   const [formData, setFormData] = useState({
