@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/hello', function () {
-    return response()->json(['message' => 'Hello this is me!!!']);
+Route::get('/', function () {
+    return view('welcome');
 });
 
-
-
-require __DIR__.'/api.php';
+Route::get('/users', function () {
+    return [
+        ['id' => 1, 'name' => 'Stefan'],
+        ['id' => 2, 'name' => 'Marie'],
+    ];
+});

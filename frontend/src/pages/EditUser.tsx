@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar";
 
 const EditUser: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,7 +45,7 @@ const EditUser: React.FC = () => {
         body: JSON.stringify(formData),
       });
       if (!res.ok) throw new Error("Failed to update user");
-      const data = await res.json();
+      await res.json();
       setStatus("User updated successfully!");
     } catch (err) {
       console.error(err);

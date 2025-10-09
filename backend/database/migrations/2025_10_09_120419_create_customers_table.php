@@ -10,17 +10,17 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('customers', function (Blueprint $table) {
-        $table->id('customer_id'); // primary key
+{
+    Schema::create('customers', function (Blueprint $table) {
+        $table->id();
         $table->string('fullname');
         $table->string('contact_number');
         $table->string('email')->unique();
         $table->string('address');
         $table->date('date_registered');
+        $table->timestamps();
     });
-    
-    }
+}
 
     /**
      * Reverse the migrations.

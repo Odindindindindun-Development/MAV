@@ -2,14 +2,24 @@
 
 return [
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', '*'],
+    /*
+    |--------------------------------------------------------------------------
+    | Cross-Origin Resource Sharing (CORS) Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This config controls cross-origin requests such as those from your
+    | React frontend (http://localhost:5173). It defines which origins,
+    | methods, and headers are allowed.
+    |
+    */
+
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'http://localhost:5173', // your React app (Vite)
+        'http://localhost:5173',
         'http://127.0.0.1:5173',
-        'http://backend.test',   // your Laravel Herd site
     ],
 
     'allowed_origins_patterns' => [],
@@ -21,4 +31,5 @@ return [
     'max_age' => 0,
 
     'supports_credentials' => true,
+
 ];
