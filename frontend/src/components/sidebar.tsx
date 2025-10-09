@@ -22,10 +22,10 @@ const Sidebar: React.FC = () => {
         <nav className="menu">
         {/* USERS DROPDOWN */}
         <div>
-          <div  className={`menu-item ${isUsersActive ? "submenu-parent-active" : ""}`}
+          <div  className={`menu-item-split menu-item ${isUsersActive ? "submenu-parent-active" : ""}`}
           onClick={() => setOpen(!open)}>
             <span>Users</span>
-            <span>{open ? <FaChevronUp /> : <FaChevronDown />}</span>
+            <span className="center-icon-align">{open ? <FaChevronUp /> : <FaChevronDown />}</span>
           </div>
 
           {open && (

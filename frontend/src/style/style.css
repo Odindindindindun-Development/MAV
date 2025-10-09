@@ -82,6 +82,17 @@ img {
   cursor: pointer;
 }
 
+.menu-item-split {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.center-icon-align {
+  display: flex;
+  align-items: center;
+}
+
 .sidebar .menu-item:hover{
   background-color: #7F56D9;
 }
