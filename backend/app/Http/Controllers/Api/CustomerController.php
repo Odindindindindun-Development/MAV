@@ -34,4 +34,39 @@ class CustomerController extends Controller
     {
         return Customer::all();
     }
+
+    public function show($id)
+{
+    $customer = \App\Models\Customer::find($id);
+
+    if (!$customer) {
+        return response()->json(['message' => 'Customer not found'], 404);
+    }
+
+    return response()->json($customer);
+}
+
+public function update(Request $request, $id)
+{
+    $customer = \App\Models\Customer::find($id);
+
+    if (!$customer) {
+        return response()->json(['message' => 'Customer not found'], 404);
+    }
+
+    $validated = $request->validate([
+        'fullname' => 'required|string|max:255',
+        'contact_number' => 'required|string|max:20',
+        'email' => 'required|email|unique:customers,email,' . $id, // allows same email if unchanged
+        'address' => 'required|string|max:255',
+        'date_registered' => 'required|date',
+    ]);
+
+    $customer->update($validated);
+
+    return response()->json([
+        'message' => 'Customer updated successfully!',
+        'data' => $customer,
+    ]);
+}
 }

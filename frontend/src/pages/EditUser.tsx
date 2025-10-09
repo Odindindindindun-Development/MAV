@@ -18,7 +18,7 @@ const EditUser: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch(`http://backend.test/api/customers/${id}`);
+        const res = await fetch(`http://127.0.0.1:8000/api/customers/${id}`);
         if (!res.ok) throw new Error("Failed to fetch user");
         const data = await res.json();
         setFormData(data);
@@ -39,7 +39,7 @@ const EditUser: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://backend.test/api/customers/${id}`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/customers/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
