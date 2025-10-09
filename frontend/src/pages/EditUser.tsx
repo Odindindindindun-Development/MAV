@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Sidebar from "../components/sidebar";
+import Sidebar from "../components/Sidebar";
 
 const EditUser: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,7 +31,9 @@ const EditUser: React.FC = () => {
     fetchUser();
   }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -42,9 +44,12 @@ const EditUser: React.FC = () => {
       const res = await fetch(`http://127.0.0.1:8000/api/customers/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // include cookies again
         body: JSON.stringify(formData),
       });
+
       if (!res.ok) throw new Error("Failed to update user");
+
       await res.json();
       setStatus("User updated successfully!");
     } catch (err) {
@@ -63,30 +68,61 @@ const EditUser: React.FC = () => {
           <form className="user-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Full Name</label>
-              <input type="text" name="fullname" value={formData.fullname} onChange={handleChange} required />
+              <input
+                type="text"
+                name="fullname"
+                value={formData.fullname}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="form-group">
               <label>Contact Number</label>
-              <input type="text" name="contact_number" value={formData.contact_number} onChange={handleChange} required />
+              <input
+                type="text"
+                name="contact_number"
+                value={formData.contact_number}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="form-group">
               <label>Email</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="form-group">
               <label>Address</label>
-              <textarea name="address" value={formData.address} onChange={handleChange} required />
+              <textarea
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="form-group">
               <label>Date Registered</label>
-              <input type="date" name="date_registered" value={formData.date_registered} onChange={handleChange} required />
+              <input
+                type="date"
+                name="date_registered"
+                value={formData.date_registered}
+                onChange={handleChange}
+                required
+              />
             </div>
 
-            <button type="submit" className="submit-btn">Update User</button>
+            <button type="submit" className="submit-btn">
+              Update User
+            </button>
           </form>
 
           {status && <p className="status-msg">{status}</p>}
