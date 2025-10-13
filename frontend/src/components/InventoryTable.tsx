@@ -22,7 +22,7 @@ const InventoryTable: React.FC = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/inventory");
+        const response = await fetch("http://127.0.0.1:8000/api/StockItem");
         const data = await response.json();
         setInventory(data);
       } catch (error) {
@@ -48,7 +48,7 @@ const InventoryTable: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/inventory/${selectedItem.StockItemID}`,
+        `http://127.0.0.1:8000/api/StockItem/${selectedItem.StockItemID}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -102,7 +102,7 @@ const InventoryTable: React.FC = () => {
               <td>{item.ItemName}</td>
               <td>{item.Description}</td>
               <td>{item.QuantityOnHand}</td>
-              <td>${item.UnitPrice.toFixed(2)}</td>
+              <td>{item.UnitPrice ? Number(item.UnitPrice).toFixed(2) : "0.00"}</td>
               <td>{item.Supplier}</td>
               <td>{item.ReorderLevel}</td>
               <td>

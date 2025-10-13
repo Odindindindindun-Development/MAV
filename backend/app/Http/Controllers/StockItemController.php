@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\StockItem;
+use Illuminate\Http\Request;
+
+class StockItemController extends Controller
+{
+    // Fetch all inventory
+    public function index()
+    {
+        $items = StockItem::all()->map(function ($item) {
+            $item->is_low_stock = $item->QuantityOnHand <= $item->ReorderLevel;
+            return $item;
+        });
+
+        return response()->json($items);
+    }
+
+    // Add a new item
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'ItemName' => 'required|string|max:255',
+            'Description' => 'nullable|string',
+            'QuantityOnHand' => 'required|integer|min:0',
+            'UnitPrice' => 'required|numeric|min:0',
+            'Supplier' => 'nullable|string|max:255',
+            'ReorderLevel' => 'nullable|integer|min:0',
+        ]);
+
+        $item = StockItem::create($validated);
+        return response()->json($item, 201);
+    }
+
+    // Update existing item
+    public function update(Request $request, $id)
+    {
+        $item = StockItem::findOrFail($id);
+        $item->update($request->all());
+        return response()->json($item);
+    }
+
+    // Return low-stock items
+    public function lowStock()
+    {
+        $items = StockItem::whereColumn('QuantityOnHand', '<=', 'ReorderLevel')->get();
+        return response()->json($items);
+    }
+}
