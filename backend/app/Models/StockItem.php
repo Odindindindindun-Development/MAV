@@ -12,6 +12,7 @@ class StockItem extends Model
 
     protected $table = 'StockItem';
     protected $primaryKey = 'StockItemID';
+    public $timestamps = true;
 
     protected $fillable = [
         'ItemName',

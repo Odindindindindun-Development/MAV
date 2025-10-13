@@ -17,7 +17,7 @@ const InventoryHeader: React.FC = () => {
   useEffect(() => {
     const fetchLowStock = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/stockitem/low");
+        const res = await fetch("http://127.0.0.1:8000/api/StockItem/low");
         const data = await res.json();
         setLowStockItems(data);
       } catch (error) {

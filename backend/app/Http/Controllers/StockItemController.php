@@ -44,8 +44,10 @@ class StockItemController extends Controller
 
     // Return low-stock items
     public function lowStock()
-    {
-        $items = StockItem::whereColumn('QuantityOnHand', '<=', 'ReorderLevel')->get();
-        return response()->json($items);
-    }
+{
+    $lowStockItems = \App\Models\StockItem::whereColumn('QuantityOnHand', '<=', 'ReorderLevel')->get();
+
+    return response()->json($lowStockItems);
+}
+
 }
