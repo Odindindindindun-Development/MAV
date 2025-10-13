@@ -10,14 +10,27 @@ interface StockItem {
   ReorderLevel: number;
 }
 
+interface StockItemHistory {
+  HistoryID: number;
+  StockItemID: number;
+  FieldChanged: string;
+  OldValue: string;
+  NewValue: string;
+  EditedAt: string;
+}
+
 const InventoryTable: React.FC = () => {
   const [inventory, setInventory] = useState<StockItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // NEW: History modal
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [historyRecords, setHistoryRecords] = useState<StockItemHistory[]>([]);
+
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5); // 👈 Change this number to set how many rows show per page
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
     const fetchInventory = async () => {
@@ -76,6 +89,25 @@ const InventoryTable: React.FC = () => {
     setSelectedItem({ ...selectedItem, [name]: value });
   };
 
+  // 🧾 Handle opening of history popup
+  const handleViewHistory = async (stockItemID: number) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/stockitemhistory/${stockItemID}`
+      );
+      const data = await response.json();
+      setHistoryRecords(data);
+      setIsHistoryModalOpen(true);
+    } catch (error) {
+      console.error("Error fetching history:", error);
+    }
+  };
+
+  const handleCloseHistoryModal = () => {
+    setIsHistoryModalOpen(false);
+    setHistoryRecords([]);
+  };
+
   // Pagination logic
   const totalPages = Math.ceil(inventory.length / rowsPerPage);
   const indexOfLastItem = currentPage * rowsPerPage;
@@ -107,6 +139,12 @@ const InventoryTable: React.FC = () => {
               <td>{item.ReorderLevel}</td>
               <td>
                 <button onClick={() => handleEdit(item)}>✏️</button>
+                <button
+                  style={{ marginLeft: "6px" }}
+                  onClick={() => handleViewHistory(item.StockItemID)}
+                >
+                  📜
+                </button>
               </td>
             </tr>
           ))}
@@ -150,7 +188,7 @@ const InventoryTable: React.FC = () => {
         </div>
       )}
 
-      {/* Modal Popup */}
+      {/* ✏️ Edit Modal */}
       {isModalOpen && selectedItem && (
         <div className="modal-overlay">
           <div className="modal">
@@ -207,6 +245,46 @@ const InventoryTable: React.FC = () => {
             <div className="modal-actions">
               <button onClick={handleSaveChanges}>💾 Save</button>
               <button onClick={handleCloseModal}>❌ Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 📜 History Modal */}
+      {isHistoryModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Item Edit History</h3>
+
+            {historyRecords.length > 0 ? (
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Field Changed</th>
+                    <th>Old Value</th>
+                    <th>New Value</th>
+                    <th>Edited At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {historyRecords.map((record) => (
+                    <tr key={record.HistoryID}>
+                      <td>{record.FieldChanged}</td>
+                      <td>{record.OldValue}</td>
+                      <td>{record.NewValue}</td>
+                      <td>
+                        {new Date(record.EditedAt).toLocaleString("en-US")}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No edit history found for this item.</p>
+            )}
+
+            <div className="modal-actions">
+              <button onClick={handleCloseHistoryModal}>❌ Close</button>
             </div>
           </div>
         </div>
