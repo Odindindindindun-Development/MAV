@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 
-const Header: React.FC = () => {
+const InventoryHeader: React.FC = () => {
   return (
     <header className="header">
       <div>
@@ -10,6 +11,7 @@ const Header: React.FC = () => {
         <p>Track, manage, and forecast your customers and orders.</p>
       </div>
       <Link to={`/users/add`}>
+        <button className="add-btn"> <FaBell />Notification</button>
         <button className="add-btn"> <FaPlus />Add</button>
       </Link>
 
@@ -17,4 +19,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default InventoryHeader;
