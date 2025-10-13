@@ -93,7 +93,7 @@ const InventoryTable: React.FC = () => {
   const handleViewHistory = async (stockItemID: number) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/stockitemhistory/${stockItemID}`
+        `http://127.0.0.1:8000/api/StockItem/${stockItemID}/history`
       );
       const data = await response.json();
       setHistoryRecords(data);

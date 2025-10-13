@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CustomerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StockItemController;
+use App\Http\Controllers\StockItemHistoryController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -30,3 +31,4 @@ Route::get('/StockItem/low', [StockItemController::class, 'lowStock']);
 Route::post('/StockItem', [StockItemController::class, 'store']);
 Route::put('/StockItem/{id}', [StockItemController::class, 'update']);
 Route::delete('/StockItem/{id}', [StockItemController::class, 'destroy']);
+Route::get('/StockItem/{id}/history', [StockItemHistoryController::class, 'index']);
