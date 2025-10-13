@@ -110,6 +110,12 @@ img {
   margin-bottom: 20px;
 }
 
+.header-buttons {
+  display: flex;
+  justify-content: space-around;
+
+}
+
 .add-btn {
   display: flex;            /* icon + text in a row */
   align-items: center;      /* vertically center */
@@ -153,6 +159,59 @@ img {
   border-bottom: 1px solid #ddd;
   text-align: left;
 }
+
+/* pagination */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.pagination-btn {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination-btn:hover {
+  background-color: #f2f2f2;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-pages {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pagination-number {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.pagination-number:hover {
+  background-color: #eee;
+}
+
+.pagination-number.active {
+  background-color: #8E05C2;
+  color: white;
+  font-weight: bold;
+}
+
 
 /* AddUser */
 .add-user-container {
@@ -232,6 +291,99 @@ textarea {
   margin-top: 15px;
   font-weight: 500;
   color: green;
+}
+
+/* Modal */
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Box */
+.modal {
+  background: #ffffff; /* White modal background */
+  color: #333; /* Dark readable text */
+  padding: 24px 28px;
+  border-radius: 12px;
+  width: 420px;
+  max-width: 90%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  animation: fadeInScale 0.25s ease;
+}
+
+/* Modal Inputs */
+.modal input {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.modal input:focus {
+  outline: none;
+  border-color: #7F56D9;
+  box-shadow: 0 0 6px rgba(127, 86, 217, 0.4);
+}
+
+/* Modal Buttons */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+/* Save button (purple) */
+.modal-actions button:first-child {
+  background-color: #6941C6;
+  color: white;
+}
+
+.modal-actions button:first-child:hover {
+  background-color: #7F56D9;
+  transform: translateY(-1px);
+}
+
+/* Cancel button (light gray) */
+.modal-actions button:last-child {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.modal-actions button:last-child:hover {
+  background-color: #ccc;
+  transform: translateY(-1px);
+}
+
+/* Simple fade-in animation */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 

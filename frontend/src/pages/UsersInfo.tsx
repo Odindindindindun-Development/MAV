@@ -1,6 +1,5 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import UsersInfoTable from "../components/UsersInfoTable";
 
 const UsersInfo: React.FC = () => {
@@ -8,7 +7,9 @@ const UsersInfo: React.FC = () => {
     <div className="dashboard">
       <Sidebar />
       <main className="main-content">
-        <Header />
+        <h1>Customer Information</h1>
+        <p>Track, manage and forecast your customer orders.</p>
+        <h2></h2>
         <UsersInfoTable />
       </main>
     </div>

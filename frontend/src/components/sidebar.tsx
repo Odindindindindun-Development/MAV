@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
 
         {/* OTHER LINKS */}
         <NavLink
-          to="#"
+          to="/Inventory"
           className={({ isActive }) =>
             isActive ? "menu-item active" : "menu-item"
           }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 
 interface Transaction {
   id: number;
@@ -34,9 +33,6 @@ const UserTransaction: React.FC = () => {
 
     fetchTransactions();
   }, []);
-
-  if (loading) return <p>Loading transactions...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <div className="dashboard">
