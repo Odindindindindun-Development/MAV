@@ -137,6 +137,68 @@ img {
   color: white; /* icon color */
 }
 
+.notification-wrapper {
+  position: relative;
+}
+
+.notif-badge {
+  background: red;
+  color: white;
+  font-size: 12px;
+  border-radius: 10px;
+  padding: 1px 6px;
+  margin-left: 5px;
+}
+
+.notification-popup {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 280px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+.notification-header {
+  font-weight: bold;
+  padding: 10px;
+  background: #eee;
+  border-bottom: 1px solid #ccc;
+}
+
+.notification-list {
+  max-height: 250px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+.notification-item:hover {
+  background-color: #fafafa;
+}
+
+.notification-empty {
+  padding: 12px;
+  text-align: center;
+  color: #555;
+  font-size: 14px;
+}
+
+.low-qty {
+  color: red;
+  font-weight: bold;
+}
+
 /* main content */
 
 .main-content {
@@ -207,7 +269,7 @@ img {
 }
 
 .pagination-number.active {
-  background-color: #8E05C2;
+  background-color: #6941C6;
   color: white;
   font-weight: bold;
 }
