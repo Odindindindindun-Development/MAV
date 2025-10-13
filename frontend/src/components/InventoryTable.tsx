@@ -15,6 +15,10 @@ const InventoryTable: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5); // 👈 Change this number to set how many rows show per page
+
   useEffect(() => {
     const fetchInventory = async () => {
       try {
@@ -43,11 +47,14 @@ const InventoryTable: React.FC = () => {
     if (!selectedItem) return;
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/inventory/${selectedItem.StockItemID}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(selectedItem),
-      });
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/inventory/${selectedItem.StockItemID}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(selectedItem),
+        }
+      );
 
       if (response.ok) {
         const updatedInventory = inventory.map((item) =>
@@ -69,9 +76,14 @@ const InventoryTable: React.FC = () => {
     setSelectedItem({ ...selectedItem, [name]: value });
   };
 
+  // Pagination logic
+  const totalPages = Math.ceil(inventory.length / rowsPerPage);
+  const indexOfLastItem = currentPage * rowsPerPage;
+  const indexOfFirstItem = indexOfLastItem - rowsPerPage;
+  const currentItems = inventory.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <div className="table-container">
-      <h2>Inventory Items</h2>
       <table className="data-table">
         <thead>
           <tr>
@@ -85,7 +97,7 @@ const InventoryTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {inventory.map((item) => (
+          {currentItems.map((item) => (
             <tr key={item.StockItemID}>
               <td>{item.ItemName}</td>
               <td>{item.Description}</td>
@@ -100,6 +112,43 @@ const InventoryTable: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Pagination */}
+      {inventory.length > 0 && (
+        <div className="pagination-container">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="pagination-btn"
+          >
+            ← Previous
+          </button>
+
+          <div className="pagination-pages">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`pagination-number ${
+                  currentPage === page ? "active" : ""
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+            className="pagination-btn"
+          >
+            Next →
+          </button>
+        </div>
+      )}
 
       {/* Modal Popup */}
       {isModalOpen && selectedItem && (

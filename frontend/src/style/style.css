@@ -110,6 +110,12 @@ img {
   margin-bottom: 20px;
 }
 
+.header-buttons {
+  display: flex;
+  justify-content: space-around;
+
+}
+
 .add-btn {
   display: flex;            /* icon + text in a row */
   align-items: center;      /* vertically center */
@@ -153,6 +159,59 @@ img {
   border-bottom: 1px solid #ddd;
   text-align: left;
 }
+
+/* pagination */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.pagination-btn {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination-btn:hover {
+  background-color: #f2f2f2;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-pages {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pagination-number {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.pagination-number:hover {
+  background-color: #eee;
+}
+
+.pagination-number.active {
+  background-color: #8E05C2;
+  color: white;
+  font-weight: bold;
+}
+
 
 /* AddUser */
 .add-user-container {
