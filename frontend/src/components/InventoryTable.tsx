@@ -30,7 +30,7 @@ const InventoryTable: React.FC = () => {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
 
   useEffect(() => {
     const fetchInventory = async () => {

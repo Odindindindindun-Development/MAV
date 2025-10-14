@@ -32,7 +32,7 @@ const AddInventory: React.FC = () => {
       if (!res.ok) throw new Error("Failed to add inventory item");
 
       await res.json();
-      setStatus("✅ Item added successfully!");
+      alert("✅ Item added successfully!");
       setFormData({
         ItemName: "",
         Description: "",
