@@ -108,6 +108,38 @@ const InventoryTable: React.FC = () => {
     setHistoryRecords([]);
   };
 
+  // 🗑️ Handle archiving
+  const handleArchive = async (stockItemID: number) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to archive this item? This action cannot be undone."
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/inventory/archive/${stockItemID}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ isArchive: true }),
+        }
+      );
+
+      if (response.ok) {
+        // Remove the archived item from UI
+        setInventory((prev) =>
+          prev.filter((item) => item.StockItemID !== stockItemID)
+        );
+        alert("✅ Item archived successfully!");
+      } else {
+        alert("❌ Failed to archive item.");
+      }
+    } catch (error) {
+      console.error("Error archiving item:", error);
+      alert("⚠️ Error archiving item. Please check your connection.");
+    }
+  };
+
   // Pagination logic
   const totalPages = Math.ceil(inventory.length / rowsPerPage);
   const indexOfLastItem = currentPage * rowsPerPage;
@@ -134,7 +166,9 @@ const InventoryTable: React.FC = () => {
               <td>{item.ItemName}</td>
               <td>{item.Description}</td>
               <td>{item.QuantityOnHand}</td>
-              <td>{item.UnitPrice ? Number(item.UnitPrice).toFixed(2) : "0.00"}</td>
+              <td>
+                {item.UnitPrice ? Number(item.UnitPrice).toFixed(2) : "0.00"}
+              </td>
               <td>{item.Supplier}</td>
               <td>{item.ReorderLevel}</td>
               <td>
@@ -144,6 +178,12 @@ const InventoryTable: React.FC = () => {
                   onClick={() => handleViewHistory(item.StockItemID)}
                 >
                   📜
+                </button>
+                <button
+                  style={{ marginLeft: "6px", color: "red" }}
+                  onClick={() => handleArchive(item.StockItemID)}
+                >
+                  🗑️
                 </button>
               </td>
             </tr>

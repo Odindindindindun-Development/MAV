@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaPlus, FaBell } from "react-icons/fa";
+import { FaPlus, FaBell, FaArchive } from "react-icons/fa"; // Import FaArchive
 
 interface LowStockItem {
   StockItemID: number;
@@ -24,7 +24,6 @@ const InventoryHeader: React.FC = () => {
         console.error("Error fetching low stock:", error);
       }
     };
-
     fetchLowStock();
 
     // Optional: auto-refresh every 1 minute
@@ -38,8 +37,14 @@ const InventoryHeader: React.FC = () => {
         <h2>Inventory</h2>
         <p>Monitor, update, and control your stock levels</p>
       </div>
-
       <div className="header-buttons">
+        {/* Archive Button */}
+        <Link to="/inventory/archive">
+          <button className="add-btn">
+            <FaArchive /> Archive
+          </button>
+        </Link>
+
         {/* Notification Button */}
         <div className="notification-wrapper">
           <button
@@ -51,7 +56,6 @@ const InventoryHeader: React.FC = () => {
               <span className="notif-badge">{lowStockItems.length}</span>
             )}
           </button>
-
           {showNotifications && (
             <div className="notification-popup">
               <div className="notification-header">Low Stock Alerts</div>
@@ -59,17 +63,14 @@ const InventoryHeader: React.FC = () => {
                 <ul className="notification-list">
                   {lowStockItems.map((item) => (
                     <li key={item.StockItemID} className="notification-item">
-                      <strong>{item.ItemName}</strong> <br />
-                      Quantity:{" "}
+                      <strong>{item.ItemName}</strong> <br /> Quantity:{" "}
                       <span className="low-qty">{item.QuantityOnHand}</span> /{" "}
                       Reorder Level: {item.ReorderLevel}
                     </li>
                   ))}
                 </ul>
               ) : (
-                <div className="notification-empty">
-                  ✅ All items are sufficiently stocked.
-                </div>
+                <div className="notification-empty"> ✅ All items are sufficiently stocked. </div>
               )}
             </div>
           )}

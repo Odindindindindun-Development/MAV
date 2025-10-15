@@ -6,6 +6,7 @@ import AddUser from "./pages/AddUser";
 import EditUser from "./pages/EditUser";
 import InventorySystem from "./pages/InventorySystem";
 import AddInventory from "./pages/AddInventory";
+import InventoryArchive from "./pages/InventoryArchive";
 import "./style/style.css";
 
 const App: React.FC = () => {
@@ -18,6 +19,8 @@ const App: React.FC = () => {
         <Route path="/users/edit/:id" element={<EditUser />} />
         <Route path="/inventory" element={<InventorySystem />} />
         <Route path="/inventory/add" element={<AddInventory />} />
+        <Route path="/inventory/archive" element={<InventoryArchive />} />
+        
 
       </Routes>
     </Router>
