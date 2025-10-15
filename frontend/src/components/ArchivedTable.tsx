@@ -8,7 +8,7 @@ interface StockItem {
   UnitPrice: number;
   Supplier: string;
   ReorderLevel: number;
-  isArchive?: boolean;
+  isArchived?: boolean | number | string;
 }
 
 interface StockItemHistory {
@@ -22,32 +22,70 @@ interface StockItemHistory {
 
 const ArchivedTable: React.FC = () => {
   const [archivedItems, setArchivedItems] = useState<StockItem[]>([]);
-  const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [historyRecords, setHistoryRecords] = useState<StockItemHistory[]>([]);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(8);
 
-useEffect(() => {
-  const fetchArchivedItems = async () => {
-     try {
+  // Fetch archived items
+  useEffect(() => {
+    const fetchArchivedItems = async () => {
+      try {
         const response = await fetch("http://127.0.0.1:8000/api/StockItem");
         const data = await response.json();
-        console.log(data);
-        // Filter out archived items
-        const activeItems = data.filter(
-          (item: StockItem) => item.isArchive
-        );
-        setArchivedItems(activeItems);
+        console.log("API data:", data);
+
+        // Normalize isArchived and filter only archived items
+        const archived = data
+          .map((item: any) => ({
+            ...item,
+            isArchived: item.isArchived === true || item.isArchived === 1 || item.isArchived === "true",
+          }))
+          .filter((item: StockItem) => item.isArchived);
+
+        setArchivedItems(archived);
       } catch (error) {
-      console.error("Error fetching archived items:", error);
+        console.error("Error fetching archived items:", error);
+      }
+    };
+
+    fetchArchivedItems();
+  }, []);
+
+  // Pagination logic
+  const totalPages = Math.ceil(archivedItems.length / rowsPerPage);
+  const indexOfLastItem = currentPage * rowsPerPage;
+  const indexOfFirstItem = indexOfLastItem - rowsPerPage;
+  const currentItems = archivedItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Restore an archived item
+  const handleRestore = async (stockItemID: number) => {
+    const confirmRestore = window.confirm("Are you sure you want to restore this item?");
+    if (!confirmRestore) return;
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/stockitem/${stockItemID}/unarchive`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ isArchived: false }),
+        }
+      );
+
+      if (response.ok) {
+        setArchivedItems(prev => prev.filter(item => item.StockItemID !== stockItemID));
+        alert("✅ Item restored successfully!");
+      } else {
+        alert("❌ Failed to restore item.");
+      }
+    } catch (error) {
+      console.error("Error restoring item:", error);
+      alert("⚠️ Error restoring item. Please check your connection.");
     }
   };
 
-  fetchArchivedItems();
-}, []);
-
+  // View history
   const handleViewHistory = async (stockItemID: number) => {
     try {
       const response = await fetch(
@@ -66,42 +104,6 @@ useEffect(() => {
     setHistoryRecords([]);
   };
 
-  const handleRestore = async (stockItemID: number) => {
-    const confirmRestore = window.confirm(
-      "Are you sure you want to restore this item?"
-    );
-    if (!confirmRestore) return;
-
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/stockitem/${stockItemID}/unarchive`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ isArchive: false }),
-        }
-      );
-
-      if (response.ok) {
-        setArchivedItems((prev) =>
-          prev.filter((item) => item.StockItemID !== stockItemID)
-        );
-        alert("✅ Item restored successfully!");
-      } else {
-        alert("❌ Failed to restore item.");
-      }
-    } catch (error) {
-      console.error("Error restoring item:", error);
-      alert("⚠️ Error restoring item. Please check your connection.");
-    }
-  };
-
-  // Pagination
-  const totalPages = Math.ceil(archivedItems.length / rowsPerPage);
-  const indexOfLastItem = currentPage * rowsPerPage;
-  const indexOfFirstItem = indexOfLastItem - rowsPerPage;
-  const currentItems = archivedItems.slice(indexOfFirstItem, indexOfLastItem);
-
   return (
     <div className="table-container">
       <table className="data-table">
@@ -117,7 +119,7 @@ useEffect(() => {
           </tr>
         </thead>
         <tbody>
-          {currentItems.map((item) => (
+          {currentItems.map(item => (
             <tr key={item.StockItemID}>
               <td>{item.ItemName}</td>
               <td>{item.Description}</td>
@@ -142,7 +144,7 @@ useEffect(() => {
       {archivedItems.length > 0 && (
         <div className="pagination-container">
           <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
             className="pagination-btn"
           >
@@ -150,7 +152,7 @@ useEffect(() => {
           </button>
 
           <div className="pagination-pages">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
@@ -162,7 +164,7 @@ useEffect(() => {
           </div>
 
           <button
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
             className="pagination-btn"
           >
@@ -188,7 +190,7 @@ useEffect(() => {
                   </tr>
                 </thead>
                 <tbody>
-                  {historyRecords.map((record) => (
+                  {historyRecords.map(record => (
                     <tr key={record.HistoryID}>
                       <td>{record.FieldChanged}</td>
                       <td>{record.OldValue}</td>

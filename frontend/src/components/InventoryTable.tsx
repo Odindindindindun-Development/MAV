@@ -8,7 +8,7 @@ interface StockItem {
   UnitPrice: number;
   Supplier: string;
   ReorderLevel: number;
-  isArchive?: boolean;
+  isArchived?: boolean | number | string;
 }
 
 interface StockItemHistory {
@@ -31,15 +31,22 @@ const InventoryTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(8);
 
+  // Fetch active (non-archived) items
   useEffect(() => {
     const fetchInventory = async () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/StockItem");
         const data = await response.json();
-        // Filter out archived items
-        const activeItems = data.filter(
-          (item: StockItem) => !item.isArchive
-        );
+        console.log("API data:", data);
+
+        // Normalize isArchived and filter only non-archived items
+        const activeItems = data
+          .map((item: any) => ({
+            ...item,
+            isArchived: item.isArchived === true || item.isArchived === 1 || item.isArchived === "true",
+          }))
+          .filter((item: StockItem) => !item.isArchived);
+
         setInventory(activeItems);
       } catch (error) {
         console.error("Error fetching inventory:", error);
@@ -122,7 +129,7 @@ const InventoryTable: React.FC = () => {
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ isArchive: true }),
+          body: JSON.stringify({ isArchived: true }),
         }
       );
 
@@ -140,6 +147,7 @@ const InventoryTable: React.FC = () => {
     }
   };
 
+  // Pagination
   const totalPages = Math.ceil(inventory.length / rowsPerPage);
   const indexOfLastItem = currentPage * rowsPerPage;
   const indexOfFirstItem = indexOfLastItem - rowsPerPage;
@@ -165,9 +173,7 @@ const InventoryTable: React.FC = () => {
               <td>{item.ItemName}</td>
               <td>{item.Description}</td>
               <td>{item.QuantityOnHand}</td>
-              <td>
-                {item.UnitPrice ? Number(item.UnitPrice).toFixed(2) : "0.00"}
-              </td>
+              <td>{item.UnitPrice ? Number(item.UnitPrice).toFixed(2) : "0.00"}</td>
               <td>{item.Supplier}</td>
               <td>{item.ReorderLevel}</td>
               <td>
@@ -205,9 +211,7 @@ const InventoryTable: React.FC = () => {
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
-                className={`pagination-number ${
-                  currentPage === page ? "active" : ""
-                }`}
+                className={`pagination-number ${currentPage === page ? "active" : ""}`}
               >
                 {page}
               </button>
@@ -215,13 +219,11 @@ const InventoryTable: React.FC = () => {
           </div>
 
           <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
             className="pagination-btn"
           >
-            Next → 
+            Next →
           </button>
         </div>
       )}
@@ -308,9 +310,7 @@ const InventoryTable: React.FC = () => {
                       <td>{record.FieldChanged}</td>
                       <td>{record.OldValue}</td>
                       <td>{record.NewValue}</td>
-                      <td>
-                        {new Date(record.EditedAt).toLocaleString("en-US")}
-                      </td>
+                      <td>{new Date(record.EditedAt).toLocaleString("en-US")}</td>
                     </tr>
                   ))}
                 </tbody>
