@@ -32,3 +32,5 @@ Route::post('/StockItem', [StockItemController::class, 'store']);
 Route::put('/StockItem/{id}', [StockItemController::class, 'update']);
 Route::delete('/StockItem/{id}', [StockItemController::class, 'destroy']);
 Route::get('/StockItem/{id}/history', [StockItemHistoryController::class, 'index']);
+Route::put('/stockitem/{id}/archive', [StockItemController::class, 'archive']);
+Route::put('/stockitem/{id}/unarchive', [StockItemController::class, 'unarchive']);
