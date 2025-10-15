@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
+import ArchivedTable from "../components/ArchivedTable";
 
 const InventoryArchive: React.FC = () => {
 
@@ -12,7 +13,9 @@ const InventoryArchive: React.FC = () => {
           History of stock levels and item statuses.
         </p>
 
-        
+        <ArchivedTable />
+
+
       </main>
     </div>
   );

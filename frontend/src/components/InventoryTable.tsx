@@ -8,6 +8,7 @@ interface StockItem {
   UnitPrice: number;
   Supplier: string;
   ReorderLevel: number;
+  isArchive?: boolean;
 }
 
 interface StockItemHistory {
@@ -24,11 +25,9 @@ const InventoryTable: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // NEW: History modal
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [historyRecords, setHistoryRecords] = useState<StockItemHistory[]>([]);
 
-  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(8);
 
@@ -37,7 +36,11 @@ const InventoryTable: React.FC = () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/StockItem");
         const data = await response.json();
-        setInventory(data);
+        // Filter out archived items
+        const activeItems = data.filter(
+          (item: StockItem) => !item.isArchive
+        );
+        setInventory(activeItems);
       } catch (error) {
         console.error("Error fetching inventory:", error);
       }
@@ -89,7 +92,6 @@ const InventoryTable: React.FC = () => {
     setSelectedItem({ ...selectedItem, [name]: value });
   };
 
-  // 🧾 Handle opening of history popup
   const handleViewHistory = async (stockItemID: number) => {
     try {
       const response = await fetch(
@@ -108,7 +110,6 @@ const InventoryTable: React.FC = () => {
     setHistoryRecords([]);
   };
 
-  // 🗑️ Handle archiving
   const handleArchive = async (stockItemID: number) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to archive this item? This action cannot be undone."
@@ -117,7 +118,7 @@ const InventoryTable: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/inventory/archive/${stockItemID}`,
+        `http://127.0.0.1:8000/api/stockitem/${stockItemID}/archive`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -126,7 +127,6 @@ const InventoryTable: React.FC = () => {
       );
 
       if (response.ok) {
-        // Remove the archived item from UI
         setInventory((prev) =>
           prev.filter((item) => item.StockItemID !== stockItemID)
         );
@@ -140,7 +140,6 @@ const InventoryTable: React.FC = () => {
     }
   };
 
-  // Pagination logic
   const totalPages = Math.ceil(inventory.length / rowsPerPage);
   const indexOfLastItem = currentPage * rowsPerPage;
   const indexOfFirstItem = indexOfLastItem - rowsPerPage;
@@ -191,7 +190,6 @@ const InventoryTable: React.FC = () => {
         </tbody>
       </table>
 
-      {/* Pagination */}
       {inventory.length > 0 && (
         <div className="pagination-container">
           <button
@@ -223,12 +221,11 @@ const InventoryTable: React.FC = () => {
             disabled={currentPage === totalPages}
             className="pagination-btn"
           >
-            Next →
+            Next → 
           </button>
         </div>
       )}
 
-      {/* ✏️ Edit Modal */}
       {isModalOpen && selectedItem && (
         <div className="modal-overlay">
           <div className="modal">
@@ -290,7 +287,6 @@ const InventoryTable: React.FC = () => {
         </div>
       )}
 
-      {/* 📜 History Modal */}
       {isHistoryModalOpen && (
         <div className="modal-overlay">
           <div className="modal">
