@@ -20,7 +20,8 @@ class StockItem extends Model
         'QuantityOnHand',
         'UnitPrice',
         'Supplier',
-        'ReorderLevel'
+        'ReorderLevel',
+        'isArchived'
     ];
 
     protected $casts = [

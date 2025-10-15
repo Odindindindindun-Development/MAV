@@ -9,14 +9,17 @@ class StockItemController extends Controller
 {
     // Fetch all inventory
     public function index()
-    {
-        $items = StockItem::all()->map(function ($item) {
+{
+    $items = StockItem::where('isArchived', false) // only non-archived
+        ->get()
+        ->map(function ($item) {
+            // add a helper field for frontend
             $item->is_low_stock = $item->QuantityOnHand <= $item->ReorderLevel;
             return $item;
         });
 
-        return response()->json($items);
-    }
+    return response()->json($items);
+}
 
     // Add a new item
     public function store(Request $request)
@@ -48,6 +51,24 @@ class StockItemController extends Controller
     $lowStockItems = \App\Models\StockItem::whereColumn('QuantityOnHand', '<=', 'ReorderLevel')->get();
 
     return response()->json($lowStockItems);
+}
+
+public function archive($id)
+{
+    $item = StockItem::findOrFail($id);
+    $item->isArchived = true;
+    $item->save();
+
+    return response()->json(['message' => 'Item archived successfully']);
+}
+
+public function unarchive($id)
+{
+    $item = StockItem::findOrFail($id);
+    $item->isArchived = false;
+    $item->save();
+
+    return response()->json(['message' => 'Item unarchived successfully']);
 }
 
 }
