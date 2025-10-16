@@ -46,6 +46,11 @@ img {
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
+
+    position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0; /* To ensure it stretches full height */
 }
 
 .sidebar .logo {
@@ -205,6 +210,7 @@ img {
   flex: 1;
   background: #f9f9f9;
   padding: 20px;
+  margin-left: 250px;
 }
 
 /* UsersInfo */
@@ -356,6 +362,17 @@ textarea {
 }
 
 /* Modal */
+.modal {
+  /* Your existing styles */
+  min-width: 50vw; /* Optional: set a max width for responsiveness */
+  max-height: 80vh; /* Optional: set a max height for the modal */
+  overflow: hidden;
+}
+
+.data-table-container {
+  max-height: 60vh; /* Set your desired height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
 
 /* Modal Overlay */
 .modal-overlay {

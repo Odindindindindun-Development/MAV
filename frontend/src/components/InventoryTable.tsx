@@ -290,41 +290,44 @@ const InventoryTable: React.FC = () => {
       )}
 
       {isHistoryModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>Item Edit History</h3>
+  <div className="modal-overlay">
+    <div className="modal">
+      <h3>Item Edit History</h3>
 
-            {historyRecords.length > 0 ? (
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Field Changed</th>
-                    <th>Old Value</th>
-                    <th>New Value</th>
-                    <th>Edited At</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {historyRecords.map((record) => (
-                    <tr key={record.HistoryID}>
-                      <td>{record.FieldChanged}</td>
-                      <td>{record.OldValue}</td>
-                      <td>{record.NewValue}</td>
-                      <td>{new Date(record.EditedAt).toLocaleString("en-US")}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p>No edit history found for this item.</p>
-            )}
-
-            <div className="modal-actions">
-              <button onClick={handleCloseHistoryModal}>❌ Close</button>
-            </div>
-          </div>
+      {historyRecords.length > 0 ? (
+        <div className="data-table-container">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Field Changed</th>
+                <th>Old Value</th>
+                <th>New Value</th>
+                <th>Edited At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {historyRecords.map((record) => (
+                <tr key={record.HistoryID}>
+                  <td>{record.FieldChanged}</td>
+                  <td>{record.OldValue}</td>
+                  <td>{record.NewValue}</td>
+                  <td>{new Date(record.EditedAt).toLocaleString("en-US")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+      ) : (
+        <p>No edit history found for this item.</p>
       )}
+
+      <div className="modal-actions">
+        <button onClick={handleCloseHistoryModal}>❌ Close</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
